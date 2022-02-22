@@ -1,0 +1,41 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2022-02-22T07:39:32-05:00",
+    "name": "TournamentAssistantCore",
+    "author": "unknown@unknown.com",
+    "description": "A program designed to make it easier to coordinate tournaments for the VR rhythm game Beat Saber",
+    "features": null,
+    "images": [
+        "ghcr.io\/pterodactyl\/yolks:debian"
+    ],
+    "file_denylist": [],
+    "startup": ".\/TournamentAssistantCore",
+    "config": {
+        "files": "{\r\n    \"serverConfig.json\": {\r\n        \"parser\": \"json\",\r\n        \"find\": {\r\n            \"port\": \"{{SERVER_PORT}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \"Can't open port 10156\"\r\n}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "cd \/mnt\/server\r\n\r\necho -e \"Installing TA Version: ${VERSION}\"\r\n\r\nif [[ ${VERSION} == \"latest\" ]]; then \r\n    VERSION=$(curl -s 'https:\/\/api.github.com\/repos\/MatrikMoon\/TournamentAssistant\/releases' | jq '.[0]' | jq -r '.name')    \r\nfi\r\n\r\necho -e \"Downloading version: ${VERSION}\"\r\n\r\nwget \"https:\/\/github.com\/MatrikMoon\/TournamentAssistant\/releases\/download\/${VERSION}\/TournamentAssistantCore\"\r\nchmod +x TournamentAssistantCore",
+            "container": "ghcr.io\/pterodactyl\/installers:alpine",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Version",
+            "description": "Version to download",
+            "env_variable": "VERSION",
+            "default_value": "latest",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string"
+        }
+    ]
+}
